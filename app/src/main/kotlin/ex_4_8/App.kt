@@ -43,4 +43,5 @@ fun main() {
     println(App().greeting)	
 	println(copy(listOf('a','b','c','d','e')))
 	println(reverse(listOf('a','b','c','d','e')))
+	println(prepend(listOf('a','b','c','d','e'),'ä'))
 }
