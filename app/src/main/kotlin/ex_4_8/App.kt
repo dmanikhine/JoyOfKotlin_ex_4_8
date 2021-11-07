@@ -3,6 +3,35 @@
  */
 package ex_4_8
 
+fun <T> List<T>.head(): T =
+        if (this.isEmpty())
+            throw IllegalArgumentException("head called on empty list")
+        else
+            this[0]
+
+fun <T> List<T>.tail(): List<T> =
+        if (this.isEmpty())
+            throw IllegalArgumentException("tail called on empty list")
+        else
+            this.drop(1)
+
+
+fun <T, U> foldLeft(list: List<T>, z: U, f: (U, T) -> U): U {
+    tailrec fun foldLeft(list: List<T>, acc: U): U =
+            if (list.isEmpty())
+                acc
+            else
+                foldLeft(list.tail(), f(acc, list.head()))
+    return foldLeft(list, z)
+}
+
+
+fun <T> copy(list: List<T>): List<T> =foldLeft(list, listOf()) { lst, elem -> lst + elem }
+
+fun <T> prepend(list: List<T>, elem: T): List<T> = foldLeft(list, listOf(elem)) { lst, elm -> lst + elm }
+ 
+fun <T> reverse(list: List<T>): List<T> = foldLeft(list, listOf(), ::prepend)
+
 class App {
     val greeting: String
         get() {
@@ -11,5 +40,7 @@ class App {
 }
 
 fun main() {
-    println(App().greeting)
+    println(App().greeting)	
+	println(copy(listOf('a','b','c','d','e')))
+	println(reverse(listOf('a','b','c','d','e')))
 }
